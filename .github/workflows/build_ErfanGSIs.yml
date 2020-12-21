@@ -15,7 +15,7 @@ on:
     
 env:
   ROM_URL: https://download.h2os.com/OnePlus7/MP/OnePlus7Hydrogen_14.H.31_OTA_031_all_2011091838_d218c01f9eb94c56.zip
-  ROM_NAME: H2OS
+  ROM_NAME: OxygenOS
   TZ: Asia/Shanghai
 
 jobs:
