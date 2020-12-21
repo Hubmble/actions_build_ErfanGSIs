@@ -1,11 +1,11 @@
-name: build_ErfanGSIs
+name: name:build_ErfanGSIs
 
 on:
 #  release:
 #    types: [published]
 #  push:
 #    branches:
-#      - 
+#      - master
 #    paths:
 #      - '.config'
 #  schedule:
@@ -14,8 +14,8 @@ on:
     types: [started]
     
 env:
-  ROM_URL1: https://download.meizu.com/Firmware/Flyme/16s_Pro/8.20.12.8/cn_daily/20201208002119/cec7dd7e/update.zip 
-  ROM_NAME: Flyme
+  ROM_URL: https://download.h2os.com/OnePlus7/MP/OnePlus7Hydrogen_14.H.31_OTA_031_all_2011091838_d218c01f9eb94c56.zip
+  ROM_NAME: H2OS
   TZ: Asia/Shanghai
 
 jobs:
@@ -26,29 +26,39 @@ jobs:
     steps:
        - name: Checkout
          uses: actions/checkout@master
-         
-       - name: Cleaning up
+       
+       - name: Clean Up
          run: |
            docker rmi `docker images -q`
-
-       - name: Cloning ErfanGSIs tools
+           sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d
+           sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
+           sudo -E apt-get update
+           sudo -E apt-get -y autoremove --purge
+           sudo -E apt-get clean 
+           
+       - name: Initialization environment
          run: |
-            git clone --recurse-submodules https://github.com/tianwen22/ErfanGSIs.git
-            sudo chmod -R 777 ErfanGSIs
-            curl -sL https://git.io/file-transfer | sh
-             
-       - name: Setting up Porting Environment
+            sudo -E apt-get -qq update
+            sudo -E apt-get -qq install git openjdk-8-jdk wget
+       
+       - name: Clone ErfanGSI Source Code
+         run: git clone --recurse-submodules https://github.com/erfanoabdi/ErfanGSIs.git
+       
+       - name: Setting up ErfanGSI requirements
          run: |
-           cd ErfanGSIs
-           sudo apt update
-           sudo bash setup.sh
+              sudo chmod -R 777 ErfanGSIs
+              cd ErfanGSIs
+              sudo bash setup.sh
        
        - name: Download Stock Rom & Generate GSI
+         run: sudo ./ErfanGSIs/url2GSI.sh $ROM_URL $ROM_NAME -ab
+       
+       - name: Zip GSI  
          run: |
-           sudo ./ErfanGSIs/url2GSI.sh $ROM_URL1 $ROM_NAME
-           ls /home/runner/work/actions_build_ErfanGSIs/actions_build_ErfanGSIs/ErfanGSIs/output/
-           7z a -r gsi.7z /home/runner/work/actions_build_ErfanGSIs/actions_build_ErfanGSIs/ErfanGSIs/output/*-AB-*-ErfanGSI.img
-           sudo ./transfer wet gsi.7z
-           sudo rm gsi.7z
-           7z a -r gsi-aonly.7z /home/runner/work/actions_build_ErfanGSIs/actions_build_ErfanGSIs/ErfanGSIs/output/*-Aonly-*-ErfanGSI.img
-           sudo ./transfer wet gsi-aonly.7z
+              mkdir final
+              zip -r final/GSI.zip /home/runner/work/actions_build_ErfanGSIs/actions_build_ErfanGSIs/ErfanGSIs/output/
+       
+       - name: Upload GSI to BitSend
+         run: |
+              curl -sL https://git.io/file-transfer | sh
+              ./transfer wet final/GSI.zip
