@@ -1,4 +1,4 @@
-name: name:build_ErfanGSIs
+name: build_ErfanGSIs
 
 on:
 #  release:
@@ -62,3 +62,6 @@ jobs:
          run: |
               curl -sL https://git.io/file-transfer | sh
               ./transfer wet final/GSI.zip
+
+         
+            
