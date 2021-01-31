@@ -14,8 +14,8 @@ on:
     types: [started]
     
 env:
-  ROM_URL: https://download.h2os.com/OnePlus7/MP/OnePlus7Hydrogen_14.H.31_OTA_031_all_2011091838_d218c01f9eb94c56.zip
-  ROM_NAME: H2OS
+  ROM_URL: http://otafsc.h2os.com/patch/CHN/OnePlus7ProHydrogen/OnePlus7ProHydrogen_13.X.37_037_2006111712/OnePlus7ProHydrogen_13.X.37_OTA_037_all_2006111712_ffda0b581a.zip
+  ROM_NAME: Oxygen
   TZ: Asia/Shanghai
 
 jobs:
@@ -51,7 +51,7 @@ jobs:
               sudo bash setup.sh
        
        - name: Download Stock Rom & Generate GSI
-         run: sudo ./ErfanGSIs/url2GSI.sh $ROM_URL $ROM_NAME -ab
+         run: sudo ./ErfanGSIs/url2GSI.sh $ROM_URL $ROM_NAME --ab
        
        - name: Zip GSI  
          run: |
