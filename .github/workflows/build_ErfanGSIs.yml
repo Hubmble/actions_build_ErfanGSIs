@@ -14,8 +14,8 @@ on:
     types: [started]
     
 env:
-  ROM_URL: https://download.h2os.com/OnePlus7/MP/OnePlus7Hydrogen_14.H.31_OTA_031_all_2011091838_d218c01f9eb94c56.zip
-  ROM_NAME: OxygenOS
+  ROM_URL: http://otafsc.h2os.com/patch/CHN/OnePlus7ProHydrogen/OnePlus7ProHydrogen_13.X.37_037_2006111712/OnePlus7ProHydrogen_13.X.37_OTA_037_all_2006111712_ffda0b581a.zip
+  ROM_NAME: OnePlus7Pro
   TZ: Asia/Shanghai
 
 jobs:
@@ -61,7 +61,7 @@ jobs:
        - name: Upload GSI to BitSend
          run: |
               curl -sL https://git.io/file-transfer | sh
-              ./transfer wet final/GSI.zip
+              ./transfer wet final/GSI.7z
 
          
             
