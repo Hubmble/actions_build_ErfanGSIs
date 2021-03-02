@@ -30,7 +30,7 @@ on:
 
 env:
 
-  ROM_URL: http://download.h2os.com/OnePlus7Pro/OBT/OnePlus7ProHydrogen_13.X.45_OTA_045_all_2010191036_900e651e099e4e24.zip
+  ROM_URL: https://otafsg1.h2os.com/patch/amazone2/GLO/OnePlus7Oxygen/OnePlus7Oxygen_13.W.43_GLO_043_2009072043/OnePlus7Oxygen_13.W.43_OTA_043_all_2009072043_c0e5929cf120.zip
 
   ROM_NAME: OxygenOS
 
